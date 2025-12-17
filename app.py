@@ -1,7 +1,7 @@
 # app.py
 import streamlit as st
 from skill_extractor import extract_skills
-from recommender import recommend_jobs_smart
+from recommender import recommend_jobs_nlp
 import PyPDF2
 import spacy
 import os
