@@ -1,7 +1,13 @@
+
 import spacy
 import re
+import os
 
-nlp = spacy.load("en_core_web_sm")
+try:
+    nlp = spacy.load("en_core_web_sm")
+except:
+    os.system("python -m spacy download en_core_web_sm")
+    nlp = spacy.load("en_core_web_sm")
 
 def extract_skills(resume_text):
     resume_text = resume_text.lower()
