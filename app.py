@@ -36,7 +36,7 @@ if uploaded_file is not None:
     st.write(skills_found)
     
     # Recommend jobs
-    job_recommendations = recommend_jobs_smart(skills_found)
+    job_recommendations = recommend_jobs_nlp(skills_found)
     st.subheader("🏆 Job Recommendations")
     for job, score in job_recommendations:
         st.write(f"{job} → Match Score: {score}%")
