@@ -3,14 +3,9 @@ import streamlit as st
 from skill_extractor import extract_skills
 from recommender import recommend_jobs_nlp
 import PyPDF2
-import spacy
 import os
 
-try:
-    nlp = spacy.load("en_core_web_sm")
-except:
-    os.system("python -m spacy download en_core_web_sm")
-    nlp = spacy.load("en_core_web_sm")
+
 
 # --- Streamlit Page Configuration ---
 st.set_page_config(page_title="AI Resume Screener", page_icon=":briefcase:")
