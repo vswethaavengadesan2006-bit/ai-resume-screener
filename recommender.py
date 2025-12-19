@@ -1,27 +1,37 @@
 import csv
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
 
 def recommend_jobs_nlp(user_skills):
-    jobs = []
-    job_skills = []
+    recommendations = []
+
+    # Convert user skills to lowercase set
+    user_skills = set(skill.lower() for skill in user_skills)
 
     with open("job_roles.csv", "r") as file:
         reader = csv.DictReader(file)
+
         for row in reader:
-            jobs.append(row["JobRole"])
-            job_skills.append(row["Skills"])
+            job_role = row["JobRole"]
+            required_skills = set(
+                skill.strip().lower() for skill in row["Skills"].split(",")
+            )
 
-    documents = job_skills + [" ".join(user_skills)]
+            # Find matched skills
+            matched_skills = user_skills.intersection(required_skills)
 
-    vectorizer = TfidfVectorizer()
-    tfidf_matrix = vectorizer.fit_transform(documents)
+            # Calculate match percentage
+            if len(required_skills) > 0:
+                match_percentage = round(
+                    (len(matched_skills) / len(required_skills)) * 100
+                )
+            else:
+                match_percentage = 0
 
-    scores = cosine_similarity(tfidf_matrix[-1], tfidf_matrix[:-1])[0]
+            if match_percentage > 0:
+                recommendations.append(
+                    (job_role, match_percentage, list(matched_skills))
+                )
 
-    results = []
-    for job, score in zip(jobs, scores):
-        results.append((job, round(score * 100)))
+    # Sort by match percentage (highest first)
+    recommendations.sort(key=lambda x: x[1], reverse=True)
 
-    results.sort(key=lambda x: x[1], reverse=True)
-    return results
+    return recommendations

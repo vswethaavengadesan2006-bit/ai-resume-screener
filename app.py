@@ -33,5 +33,9 @@ if uploaded_file is not None:
     # Recommend jobs
     job_recommendations = recommend_jobs_nlp(skills_found)
     st.subheader("🏆 Job Recommendations")
-    for job, score in job_recommendations:
-        st.write(f"{job} → Match Score: {score}%")
+    for job, score, matched_skills in job_recommendations:
+       st.write(f"**{job}** → Match Score: {score}%")
+       st.caption(f"Matched skills: {', '.join(matched_skills)}")
+
+
+    
